@@ -1,0 +1,50 @@
+﻿@model IEnumerable<RegistroTipo>
+@{
+    ViewData["Title"] = Localizer["Ficha de registro"];
+}
+
+@if ((bool)ViewData["RegistroEnabled"])
+{
+    @* <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        @Html.ActionLink("Registrar Ponencia", "Ponencia", "Home", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Registrar Mesa", "Mesa", "Mesa", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Registrar Simposio", "Simposio", "Simposio", null, new { @class = "btn btn-primary" })
+    </div> *@
+
+    <div class="row mt-5 p-3">
+        <div class="col mt-5">
+            <div class="card mt-5 shadow">
+                <small class="card-header bg-transparent">Tipo de registro</small>
+                <div class="card-body text-center">
+                    <i class="bi bi-person-fill size-ic"></i>
+                    <h5 class="card-title">Ponencia</h5>
+                </div>
+                <div class="card-footer bg-transparent text-center">@Html.ActionLink("Registrar", "Ponencia", "Home", null, new { @class = "btn btn-primary" })</div>
+            </div>
+        </div>
+        <div class="col mt-5">
+            <div class="card mt-5 shadow">
+                <small class="card-header bg-transparent">Tipo de registro</small>
+                <div class="card-body text-center">
+                    <i class="bi bi-person-lines-fill size-ic"></i>
+                    <h5 class="card-title">Mesa</h5>
+                </div>
+                <div class="card-footer bg-transparent text-center">@Html.ActionLink("Registrar", "Mesa", "Mesa", null, new { @class = "btn btn-primary" })</div>
+            </div>
+        </div>
+        <div class="col mt-5">
+            <div class="card mt-5 shadow">
+                <small class="card-header bg-transparent">Tipo de registro</small>
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill size-ic"></i>
+                    <h5 class="card-title">Simposio</h5>
+                </div>
+                <div class="card-footer bg-transparent text-center">@Html.ActionLink("Registrar", "Simposio", "Simposio", null, new { @class = "btn btn-primary" })</div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <partial name="_PartialRegistroCerrado" />
+}

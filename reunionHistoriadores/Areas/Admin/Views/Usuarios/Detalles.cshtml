@@ -1,0 +1,22 @@
+﻿@model CustomIdentityUser
+
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["SubTitle"] = "Detalles";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Usuarios"]">@Localizer["Usuarios"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<partial name="_PartialDetalles" model="@Model" />
+
+<div class="text-center mt-3">
+    <a class="btn btn-sm btn-outline-secondary" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+</div>

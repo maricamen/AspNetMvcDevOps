@@ -1,0 +1,64 @@
+﻿@model RegistroTipo
+
+@section Styles {
+<partial name="_ValidationStylesPartial" />
+}
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
+
+@{
+    ViewData["Title"] = @Localizer["Eliminar"];
+    ViewData["SubTitle"] = @Localizer["Tipo de registro"];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+@if (!(bool)ViewData["OperacionValida"])
+{
+    <p class="text-danger"><span class="bi bi-info-circle"></span> @Localizer["Este elemento ya tiene registros asociados y no puede ser eliminado."]</p>
+    <div class="text-center mt-3">
+        <a class="btn btn-sm btn-outline-secondary" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+    </div>
+}
+else
+{
+    <p class="text-primary"><span class="bi bi-info-circle"></span> @Localizer["¿Está seguro que desea eliminar este elemento?"]</p>
+
+    <form asp-action="Eliminar">
+        <p class="text-danger">@ViewData["ErrorMessage"]</p>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="card text-dark bg-light mt-3">
+            <div class="card-header">
+                @Model.Id - @Model.Nombre
+            </div>
+            <div class="card-body">
+                <div class="form-text mb-2">
+                    <div class="text-dark">@Html.DisplayNameFor(model => model.Id)</div>
+                    @Model.Id
+                </div>
+                <div class="form-text mb-2">
+                    <div class="text-dark">@Html.DisplayNameFor(model => model.Nombre)</div>
+                    @Model.Nombre
+                </div>
+                <div class="form-text mb-2">
+                    <div class="text-dark">@Html.DisplayNameFor(model => model.Descripcion)</div>
+                    @Model.Descripcion
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="btnEnviar" type="submit" class="btn btn-sm btn-danger">@Localizer["Eliminar"]</button>
+            <a class="btn btn-sm btn-outline-secondary" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+        </div>
+    </form>
+}

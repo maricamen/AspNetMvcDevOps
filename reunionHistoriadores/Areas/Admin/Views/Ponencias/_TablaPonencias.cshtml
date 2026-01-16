@@ -1,0 +1,29 @@
+﻿@model IEnumerable<reunionhistoriadores2025.Areas.Admin.ViewModels.Ponencias.PonenciaListadoViewModel>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th>Título</th>
+            <th>Expositor</th>
+            <th>Correo</th>
+            <th>Línea temática</th>
+            <th>Archivo</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Folio</td>
+                <td>@p.Titulo</td>
+                <td>@p.ExpositorNombre</td>
+                <td>@p.ExpositorCorreo</td>
+                <td>@p.LineaTematica</td>
+                <td>@p.ArchivoNombre</td>
+                <td>@p.Fecha</td>
+            </tr>
+        }
+    </tbody>
+</table>

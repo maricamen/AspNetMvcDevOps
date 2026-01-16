@@ -1,0 +1,13 @@
+﻿/*---------------------------------------------
+    Página de Login
+*/
+
+.ancla {
+    display: none;
+}
+
+.bg-login {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../images/fondo-login.jpg');
+}

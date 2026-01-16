@@ -1,0 +1,71 @@
+﻿@model IEnumerable<reunionhistoriadores2025.Models.Ponencia>
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+<h2>Detalles de mesa</h2>
+<div class="form-group row">
+    <label class="col"><b>Folio:</b> @ViewData["Folio"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Nombre:</b> @ViewData["MesaNombre"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Tema:</b> @ViewData["Tema"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Coordinador:</b> @ViewData["NombreCoordinador"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Correo:</b> @ViewData["CorreoCoordinador"]</label>
+</div>
+<div class="form-group row">
+    @if (ViewBag.MesaArchivo != null)
+    {
+        <p>
+            <strong>Archivo de la mesa:</strong>
+            <a asp-action="DescargarArchivo" asp-route-id="@ViewBag.MesaId">
+                @ViewBag.MesaArchivo
+            </a>
+        </p>
+    }
+    else
+    {
+        <p><strong>Archivo de la mesa:</strong> (Sin archivo)</p>
+    }
+</div>
+<br />
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No hay ponencias registradas para esta mesa.</div>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-success">
+            <tr>
+                <th>Título de la ponencia</th>
+                <th>Expositor</th>
+                <th>Correo</th>
+                <th>Institución de adscripción</th>
+                <th>Género</th>
+                <th>País</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ponencia in Model)
+            {
+                <tr>
+                    <td>@ponencia.Titulo</td>
+                    <td>@(ponencia.Expositores != null ? ponencia.Expositores.Nombre : "(Sin expositor)")</td>
+                    <td>@ponencia.Expositores.Correo </td>
+                    <td>@ponencia.Expositores.Institucion </td>
+                    <td>@ponencia.Expositores.Genero.Nombre </td>
+                    <td>@ponencia.Expositores.Paises.Nombre </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Volver al listado</a>

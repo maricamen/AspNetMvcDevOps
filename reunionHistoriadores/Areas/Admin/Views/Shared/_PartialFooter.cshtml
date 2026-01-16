@@ -1,0 +1,34 @@
+﻿@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Data
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims
+@inject IWebHostEnvironment Env
+@inject IConfiguration Configuration
+
+<footer class="border-top fixed-bottom bg-primary text-muted small p-1">
+    <div class="container text-end text-white">
+        @if (Env.IsDevelopment())
+        {
+            <span class="badge bg-danger">@Configuration.GetConnectionString(nameof(RegistroContext))</span>
+        }
+        @ViewData["SiteTitle"] - @User.FindFirst(ClaimTypes.Email).Value        
+        <span class="badge bg-info">
+            @if (User.IsInRole(AdminRolePolicies.AdministradorRole))
+            {
+                @AdminRolePolicies.AdministradorRole
+            }
+            else if (User.IsInRole(AdminRolePolicies.AdministradorGeneralRole))
+            {
+                @AdminRolePolicies.AdministradorGeneralRole
+            }
+            @* else if (User.IsInRole(AdminRolePolicies.CoordinadorMesaRole))
+            {
+                @AdminRolePolicies.CoordinadorMesaRole
+            }
+            else if (User.IsInRole(AdminRolePolicies.JuradoRole))
+            {
+                @AdminRolePolicies.JuradoRole
+            } *@
+        </span>        
+    </div>
+</footer>

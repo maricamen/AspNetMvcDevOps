@@ -1,0 +1,106 @@
+﻿@using reunionhistoriadores2025.ViewModels.Home
+@model MesaViewModel
+
+<div class="card mt-3">
+    <div class="card-header">
+        @Localizer["Datos de participación"]
+    </div>
+    <div class="card-body">
+        <div class="mb-3 obligatorio">
+            <label asp-for="NombreMesa" class="form-label"></label>
+            <input asp-for="NombreMesa" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="NombreMesa" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-6 obligatorio">
+                    <label asp-for="LineaTematicaId" class="form-label"></label>
+                    @Html.DropDownListFor(m => m.LineaTematicaId, ViewData["Temas"] as SelectList, "Seleccione un tema", new { @class = "form-control" })
+                    <span asp-validation-for="LineaTematicaId" class="invalid-feedback"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="LineaTematicaOtro" class="form-label"></label>
+                    <input asp-for="LineaTematicaOtro" placeholder="Introduzca un valor para este campo" class="form-control temaOtro" />
+                    <span class="otroRequerido">Campo requerido</span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="NombreCoordinador" class="form-label"></label>
+            <input asp-for="NombreCoordinador" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="NombreCoordinador" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="CorreoCoordinador" class="form-label"></label>
+            <input asp-for="CorreoCoordinador" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="CorreoCoordinador" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="Resumen" class="form-label"></label>
+            <input asp-for="Resumen" class="form-control" />
+            <span asp-validation-for="Resumen" class="invalid-feedback"></span>
+            <small>
+                Adjuntar archivo Formato Propuesta de Mesa<br />
+                El archivo deberá nombrarse con el nombre de la mesa seguido del apellido y nombre de la persona coordinadora.<br />
+                Formato:[Mesa] ] [Apellido] [Nombre].docx<br />
+                Ejemplos:<br />
+                •	Migracion y Movilidad Humana Garcia Rodolfo.docx<br />
+                •	Politica y Gobernanza Perez Alicia.pdf<br />
+
+            </small>
+        </div>
+        <div class="text-center">
+            <h3>Ponencias</h3>
+        </div>
+        
+        @for (int i = 0; i < Model.Ponencias.Count; i++)
+        {
+            <h4>Ponencia @(i + 1)</h4>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Ponencias[i].Titulo" class="form-label"></label>
+                <input asp-for="Ponencias[i].Titulo" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Ponencias[i].Titulo" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Ponencias[i].Nombre" class="form-label"></label>
+                <input asp-for="Ponencias[i].Nombre" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Ponencias[i].Nombre" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Ponencias[i].GradoAcademico" class="form-label"></label>
+                <input asp-for="Ponencias[i].GradoAcademico" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Ponencias[i].GradoAcademico" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-6 obligatorio">
+                        <label asp-for="Ponencias[i].GeneroId" class="form-label"></label>
+                        @Html.DropDownListFor(m => m.Ponencias[i].GeneroId, ViewData["Generos"] as SelectList, "Seleccione un género", new { @class = "form-control" })
+                        <span asp-validation-for="Ponencias[i].GeneroId" class="invalid-feedback"></span>
+                    </div>
+                    @* <div class="col-6">
+                        <label asp-for="Ponencias[i].Autodescripcion" class="form-label"></label>
+                        <input asp-for="Ponencias[i].Autodescripcion" placeholder="Introduzca un valor para este campo" class="form-control" />
+                    </div> *@
+                </div>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Ponencias[i].InstituciónAdscripción" class="form-label"></label>
+                <input asp-for="Ponencias[i].InstituciónAdscripción" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Ponencias[i].InstituciónAdscripción" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Ponencias[i].Correo" class="form-label"></label>
+                <input asp-for="Ponencias[i].Correo" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Ponencias[i].Correo" class="invalid-feedback"></span>
+            </div>
+            <div class="form-group">
+                <div class="mb-3 obligatorio">
+                    <label asp-for="Ponencias[i].PaisId" class="form-label"></label>
+                    @Html.DropDownListFor(m => m.Ponencias[i].PaisId, ViewData["Paises"] as SelectList, "Seleccione un país", new { @class = "form-control" })
+                    <span asp-validation-for="Ponencias[i].PaisId" class="invalid-feedback"></span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

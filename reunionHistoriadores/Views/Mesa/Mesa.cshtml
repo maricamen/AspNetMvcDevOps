@@ -1,0 +1,92 @@
+﻿@using reunionhistoriadores2025.ViewModels.Home
+@model MesaViewModel
+
+@{
+    ViewData["Title"] = Localizer["Mesa"];
+}
+
+@section Styles {
+    <partial name="_ValidationStylesPartial" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@sweetalert2/theme-bootstrap-4@@5.0.8/bootstrap-4.min.css" />
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="~/js/shared/controles-dinamicos.js" asp-append-version="true"></script>
+    <script src="~/js/home/registro-tipo.js" asp-append-version="true"></script>
+    <script src="~/js/home/registro-otro.js" asp-append-version="true"></script>
+}
+
+<h3 class="my-5 text-center mb-0">@ViewData["Title"]</h3>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    @Html.ActionLink("Regresar", "Index", "Home", null, new { @class = "btn btn-secondary" })
+</div>
+
+@if ((bool)ViewData["RegistroEnabled"])
+{
+    <div class="cargando">
+        @if (!(bool)ViewData["TipoRegistroUnico"])
+        {
+            <div class="clearfix">
+                <p class="float-end"><a asp-action="Index" class="link-primary text-decoration-none" title="Regresar"><i class="bi bi-arrow-left-circle"></i> @Localizer["Regresar"]</a></p>
+            </div>
+        }
+        @* <input id="tematicas" type="hidden" value="@Url.Action("ObtenerTematicas", "Home")" /> *@
+        <form asp-action="Mesa" asp-route-id="@Model.RegistroTipo.Id" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <p>
+                        <a class="text-decoration-none" href="@ViewData["UrlPortal"]" target="_blank"><i class="bi bi-file-pdf"></i> @Localizer["Consulte la convocatoria aquí."]</a>
+                    </p>
+                    <p>
+                        @Localizer["Introduzca la información solicitada para registrar su participación."]<br />
+                        @Localizer["Los datos marcados con asterisco son obligatorios."]
+                    </p>
+                </div>
+            </div>
+
+            @* <div class="card mt-3">
+                <div class="card-header">
+                    @Localizer["Tipo de registro"]
+                </div>
+                <div class="card-body text-center">
+                    <i class="@Model.RegistroTipo.IconoCss"></i> @Model.RegistroTipo.Nombre
+                </div>
+            </div> *@
+
+            <partial name="_PartialMesa" />
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <p>@Localizer["Si tiene alguna duda sobre cómo llenar este registro, puede comunicarse al correo electrónico"] <a class="text-decoration-none" href="mailto:@ViewData["CorreoEvento"]">@ViewData["CorreoEvento"]</a></p>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-body text-center">
+                    <a class="btn btn-link ps-0 text-decoration-none" data-bs-toggle="modal" data-bs-target="#modalAviso">@Localizer["Ver aviso de privacidad"]</a>
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input asp-for="Declarativa" class="form-check-input" />
+                            <label asp-for="Declarativa" class="form-check-label"></label>
+                        </div>
+                        <span asp-validation-for="Declarativa" class="invalid-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <button id="btnEnviar" type="submit" class="btn btn-primary" data-swaltitle="@Localizer["Ficha de Registro"]" data-swaltext="@Localizer["¿Confirma que desea enviar sus datos de participación?"]">@Localizer["Enviar registro"]</button>
+                @Html.ActionLink("Regresar", "Index", "Home", null, new { @class = "btn btn-secondary" })
+            </div>
+        </form>
+    </div>
+
+    <partial name="_PartialAviso" />
+}
+else
+{
+    <partial name="_PartialRegistroCerrado" />
+}

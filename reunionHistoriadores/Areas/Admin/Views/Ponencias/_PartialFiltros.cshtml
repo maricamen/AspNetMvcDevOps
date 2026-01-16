@@ -1,0 +1,33 @@
+﻿@using reunionhistoriadores2025.Areas.Admin.ViewModels.Registros
+<div class="row mb-3">
+    <div class="col-auto">
+        <form asp-action="Index" method="get">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Buscar folio o correo" name="SearchString" value="@ViewData["CurrentFilter"]">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        @{
+            var status = ViewData["CurrentStatus"] == null ? 0 : Convert.ToInt16(ViewData["CurrentStatus"]);
+            var statusSelect = (IList<StatusViewModel>)ViewData["StatusSelect"];
+            var filtro = status == 0 ? "Todos" : statusSelect.FirstOrDefault(s => s.Id == status)!.NombreLargo;
+        }
+        @if (statusSelect.Count > 0)
+        {
+            <div class="dropdown float-end">
+                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    @filtro
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]">Todos</a></li>
+                    @foreach (var item in statusSelect)
+                    {
+                        <li><a class="dropdown-item" asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@item.Id">@item.NombreLargo</a></li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>

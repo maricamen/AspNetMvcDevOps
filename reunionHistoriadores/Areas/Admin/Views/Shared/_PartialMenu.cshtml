@@ -1,0 +1,49 @@
+﻿@using reunionhistoriadores2025.AuthorizationPolicies
+
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow mb-3 mt-3 mt-md-0 fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand text-truncate" style="max-width: 200px;" asp-action="Index" asp-controller="Home">@ViewData["SiteTitle"]</a>
+        <button class="btn btn-outline-secondary btn-sm shadow-none d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <i class="bi bi-list"></i> @Localizer["Menu principal"]
+        </button>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title pt-2" id="offcanvasNavbarLabel">@Localizer["Menu principal"]</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-class-active="true" asp-controller="Home" asp-action="Index">@Localizer["Inicio"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-class-active="true" asp-controller="Home" asp-action="Inicio">@Localizer["Registros"]</a>
+                    </li>                    
+                    @* @if (User.IsInRole(AdminRolePolicies.AdministradorRole) || User.IsInRole(AdminRolePolicies.AdministradorGeneralRole)){
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" asp-class-active="true" asp-controller="Usuarios" asp-action="Index">@Localizer["Usuarios"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-class-active="true" asp-controller="Bitacora" asp-action="Index">@Localizer["Bitácora"]</a>
+                        </li>
+                    } *@
+                     @if (User.IsInRole(AdminRolePolicies.AdministradorGeneralRole)){
+                        <li class="nav-item">
+                            <a class="nav-link" asp-class-active="true" asp-controller="Usuarios" asp-action="Index">@Localizer["Usuarios"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-class-active="true" asp-controller="Bitacora" asp-action="Index">@Localizer["Bitácora"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-class-active="true" asp-controller="Configuracion" asp-action="Index">@Localizer["Configuración"]</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

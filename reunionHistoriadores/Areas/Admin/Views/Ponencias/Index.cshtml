@@ -1,0 +1,82 @@
+﻿@* @model IEnumerable<reunionhistoriadores2025.Areas.Admin.ViewModels.Ponencias.PonenciaListadoViewModel> *@
+@model X.PagedList.IPagedList<reunionhistoriadores2025.Areas.Admin.ViewModels.Ponencias.PonenciaListadoViewModel>
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList.Web.Common; 
+
+@{
+    ViewBag.Title = "Listado de Ponencias";
+}
+
+<h2>Listado de Ponencias</h2>
+<div class="filtro-superior">
+    <a asp-action="DescargarZip" class="btn btn-outline-primary">
+        Descargar todos los archivos (.zip)
+    </a>
+    <a asp-action="ExportarExcel" class="btn btn-outline-primary">
+        Descargar listado en Excel
+    </a>
+    <div class="elem-filtro">
+        <form method="get" asp-action="Index">
+            <select id="filtroRelacion" name="filtroRelacion" class="form-control elem-filtro select-filtro">
+                <option value="">Todas</option>
+                <option value="Mesas" selected="@(ViewBag.FiltroRelacion == "Mesas")">Con Mesas</option>
+                <option value="Simposios" selected="@(ViewBag.FiltroRelacion == "Simposios")">Con Simposios</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary btn-sm elem-filtro">Filtrar</button>
+        </form>
+    </div>
+</div>
+
+@* <form asp-action="Index" method="get" class="mb-3 d-flex">
+    <input type="text" name="buscar" value="@ViewBag.Buscar" class="form-control me-2" placeholder="Buscar por correo o folio..." />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form> *@
+<br />
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-warning">@TempData["Mensaje"]</div>
+}
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>#</th>
+            <th>Folio</th>
+            <th>Título de la ponencia</th>
+            <th>Tema</th>
+            <th>Expositor</th>
+            <th>Correo</th>
+            <th>Fecha</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = (Model.PageNumber - 1) * Model.PageSize;
+        }
+        @foreach (var item in Model)
+        {
+            index++;
+            <tr>
+                <td>@index</td>
+                <td>@item.Folio</td>
+                <td>@item.Titulo</td>
+                <td>@item.LineaTematica</td>
+                <td>@item.ExpositorNombre</td>
+                <td>@item.ExpositorCorreo</td>
+                <td>@item.Fecha</td>
+                <td>
+                    <a class="btn btn-outline-success btn-sm"
+                       asp-action="Detalles"
+                       asp-route-id="@item.Id">
+                        Detalles
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-end">
+    <small>Total de ponencias: @ViewBag.Total</small>
+</div>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { filtroRelacion = ViewBag.FiltroRelacion, page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination", "justify-content-center", "pagination-sm" }, LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })

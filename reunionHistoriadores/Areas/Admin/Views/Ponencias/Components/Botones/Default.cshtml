@@ -1,0 +1,7 @@
+﻿@using reunionhistoriadores2025.Areas.Admin.ViewModels.Registros
+@model List<BotonViewModel>
+
+@foreach (var item in Model)
+{
+    <a class="btn btn-outline-primary btn-sm py-0 border-light" asp-controller="@item.Controlador" asp-action="@item.Action" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]" asp-route-pageNumber="@ViewData["PageNumber"]" asp-route-id="@item.Id"><small>@item.Nombre</small></a>
+}

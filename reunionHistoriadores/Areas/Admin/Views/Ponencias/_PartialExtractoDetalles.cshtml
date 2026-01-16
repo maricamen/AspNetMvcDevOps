@@ -1,0 +1,31 @@
+﻿@model Ponencia
+
+<div class="card text-dark bg-light mt-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">@Model.Regitros.RegistroFolio.Clave</div>
+            <div class="col text-end small">
+                <i class="@Model.Regitros.RegistroTipo.IconoCss"></i> @Model.Regitros.RegistroTipo.Nombre
+                @await Component.InvokeAsync("RegistroBadgeStatus", new { id = Model.Id })
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Expositores.Correo)</div>
+            @Model.Expositores.Correo
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Regitros.Fecha)</div>
+            @Model.Regitros.Fecha
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Regitros.IpAddress)</div>
+            @Model.Regitros.IpAddress
+        </div>@*
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.IpAddress)</div>
+            @(Model.Modalidad == null ? @Localizer["No capturada"] : @Model.Modalidad.Nombre)
+        </div>*@
+    </div>
+</div>

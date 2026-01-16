@@ -1,0 +1,25 @@
+﻿@model ICollection<RegistroTipo>
+
+@{
+    ViewData["Title"] = Localizer["Ficha de registro"];
+}
+
+<h2 class="my-5 text-center">@ViewData["Title"]</h2>
+
+@if ((bool)ViewData["RegistroEnabled"])
+{
+    <div class="p-5 bg-light border rounded-3">
+        <h2>@Localizer["Su información se ha enviado con éxito"]</h2>
+        <p>@Localizer["Muchas gracias por su participación."]</p>
+        <p>
+            <strong>Información y contacto</strong><br />
+            @Localizer["Sitio web:"] <a href="https://www.uv.mx/xvii-reunion-historiadores/">https://www.uv.mx/xvii-reunion-historiadores/</a><br />
+            @Localizer["Correo electrónico:"] <a href="mailto:@ViewData["CorreoEvento"]">@ViewData["CorreoEvento"]</a>
+        </p>
+        <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Nuevo registro"]</a>
+    </div>
+}
+else
+{
+    <partial name="_PartialRegistroCerrado" />
+}

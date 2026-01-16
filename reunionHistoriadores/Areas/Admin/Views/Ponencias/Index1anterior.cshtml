@@ -1,0 +1,182 @@
+﻿@model X.PagedList.IPagedList<Ponencia>
+
+@using reunionhistoriadores2025.Areas.Admin.ViewComponents
+@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Services.Options
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<GlobalOptions> Opciones
+
+@{
+    ViewData["Title"] = @Localizer["Registros"];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<partial name="_PartialFiltros" />
+
+@if (Model.Count() > 0)
+{
+    @* <div class="row small mb-3">
+        <div class="col">
+            Vista: <a asp-action="Vista" asp-route-id="@Model.FirstOrDefault().Regitros.RegistroTipoId" asp-route-cardsViewEnabled="@ViewData["CardsViewEnabled"]">@Html.Raw(ViewData["CardsViewEnabledIcon"])</a>
+            @if (!User.IsInRole(AdminRolePolicies.JuradoRole))
+            {
+                <span>
+                    | Excel: <a asp-action="@("ExcelTipo" + Model.FirstOrDefault().Regitros.RegistroTipoId)" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]"><i class="bi bi-file-earmark-excel"></i></a>
+                    | Archivos: <a asp-action="Zip" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]"><i class="bi bi-file-earmark-zip"></i></a>
+                </span>
+            }
+        </div>
+        <div class="col text-end">
+            Mostrando @Model.Count de @Model.TotalItemCount elementos
+        </div>
+    </div> *@
+    @if ((bool)@ViewData["CardsViewEnabled"])
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pb-3 border-bottom mb-3">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card text-dark bg-light small h-100">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col"><a class="text-decoration-none text-nowrap" title="@Localizer["Ordenar"]" asp-action="Index" asp-route-sortOrder="@ViewData["FolioSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]">@item.Regitros.RegistroFolio.Clave@Html.Raw(ViewData["FolioSortIcon"])</a></div>
+                                <div class="col text-end small">
+                                    <i class="@item.Regitros.RegistroTipo.IconoCss"></i> <small>@item.Regitros.RegistroTipo.Nombre</small>
+                                    @await Component.InvokeAsync("RegistroBadgeStatus", new { id = item.Id })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-text mt-0">
+                                @item.Expositores.Correo
+                            </div>
+                            @* <div class="form-text mt-0">
+                                @item.Expositores.Telefono
+                            </div> *@
+                            <div class="form-text">
+                                @item.Regitros.Fecha
+                            </div>@*
+                            <div class="form-text">
+                            @item.NombreCompleto
+                            </div>
+                            <div class="form-text text-truncate">
+                            @item.Institucion
+                            </div>
+                            <div class="form-text text-truncate">
+                            @(item.Modalidad == null ? @Localizer["Modalidad no capturada"] : @item.Modalidad.Nombre)
+                            </div>*@
+                        </div>
+                        <div class="card-body border-top">
+                            @* Aqui puedes cambiar*@
+                            @*<div class="form-text mt-0 text-truncate text-dark">
+                            @(item.LineaTematica == null ? "" : @item.LineaTematica.Nombre)
+                            </div>*@
+                            <div class="form-text">
+                                <span title="@Html.DisplayNameFor(model => model.FirstOrDefault().Titulo)">@item.Titulo</span>
+                            </div>
+                            <div class="form-text">
+                                <span title="@Html.DisplayNameFor(model => model.FirstOrDefault().LineaTematica.Nombre)">@item.LineaTematica.Nombre</span>
+                            </div>
+                            @* Aqui puedes cambiar*@
+                        </div>
+                        <div class="card-body border-top">
+                            @await Component.InvokeAsync("Archivos", new { id = item.Id })
+                        </div>
+                        <div class="card-footer">
+                            @await Component.InvokeAsync("Botones", new { id = item.Id })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped small">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <a asp-action="Index" title="@Localizer["Ordenar"]" asp-route-sortOrder="@ViewData["FolioSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]">@Localizer["Folio"] @Html.Raw(ViewData["FolioSortIcon"])</a>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Expositores.Correo)
+                        </th>
+                        <th>
+                            <a asp-action="Index" title="@Localizer["Ordenar"]" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Regitros.Fecha) @Html.Raw(ViewData["DateSortIcon"])</a>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Titulo)
+                        </th>
+
+                        @* Aqui puedes cambiar*@
+                        @*<th>@Html.DisplayNameFor(model => model.FirstOrDefault().LineaTematica.Nombre)</th>*@
+                        @* Aqui puedes cambiar*@
+                        <th>Archivos</th>
+                        <th>
+                            @Localizer["Estado"]
+                        </th>
+                        <th style="width:1px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Regitros.RegistroFolio.Clave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Expositores.Correo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Regitros.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Titulo)
+                            </td>
+
+                            @* Aqui puedes cambiar*@
+                            @*<td>
+                @(item.LineaTematica == null ? "" : @item.LineaTematica.Nombre)
+                </td>
+                <td>
+                @item.LineaTematica.Nombre <small class="text-muted">@item.LineaTematica.LineaTematicaGrupo.Nombre</small>
+                </td>*@
+                            @* Aqui puedes cambiar*@
+                            <td>
+                                @await Component.InvokeAsync("Archivos", new { id = item.Id })
+                            </td>
+                            <td class="text-nowrap">
+                                @await Component.InvokeAsync("RegistroBadgeStatus", new { id = item.Id })
+                            </td>
+                            <td class="small">
+                                @await Component.InvokeAsync("Botones", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { sortOrder = @ViewData["CurrentSort"], pageNumber = page, currentFilter = @ViewData["CurrentFilter"] }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination", "justify-content-center", "pagination-sm" },  LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } } )
+}
+else
+{
+    <div class="mt-5">
+        <div class="alert alert-primary" role="alert">
+            <i class="bi bi-info-circle-fill"></i> @Localizer["No se han encontrado elementos"]
+        </div>
+    </div>
+}

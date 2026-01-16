@@ -1,0 +1,74 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model X.PagedList.IPagedList<Bitacora>
+
+@{
+    ViewData["Title"] = Localizer["Bitácora"];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<p class="text-end small">
+    Mostrando @Model.Count() de @Model.TotalItemCount elementos
+</p>
+
+@if (Model.Count() > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped small">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Message)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().TimeStamp)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().UserName)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Message)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeStamp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { pageNumber = page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination", "justify-content-center", "pagination-sm" },  LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } } )
+}
+else
+{
+    <div class="mt-5">
+        <div class="alert alert-primary" role="alert">
+            <i class="bi bi-info-circle-fill"></i> @Localizer["No se han encontrado elementos"]
+        </div>
+    </div>
+}

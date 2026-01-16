@@ -1,0 +1,56 @@
+﻿@using reunionhistoriadores2025.Areas.Admin.ViewModels.Registros
+@model List<ArchivoViewModel>
+
+<div class="card mb-3">
+    <div class="card-header">
+        Archivos
+    </div>
+    <div class="card-body small">
+        <div class="text-end mb-2">Mostrando @Model.Count elementos</div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-truncate">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Fecha)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Size)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().ArchivoTipo.Nombre)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="text-truncate" style="max-width: 300px">
+                                    <a class="text-decoration-none" title="Clic para descargar" asp-action="Descargar" asp-route-id="@item.Id">@item.Nombre</a>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @(item.Size/1024) KB
+                            </td>
+                            <td>
+                                <i class="@item.ArchivoTipo.IconoCss text-danger"></i> @Html.DisplayFor(modelItem => item.ArchivoTipo.Nombre)
+                            </td>
+                            <td>
+                                <a class="text-decoration-none" asp-action="ArchivoEliminar" asp-route-id="@item.PonenciaId" asp-route-archivoId="@item.Id" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]" asp-route-pageNumber="@ViewData["PageNumber"]"><i class="bi bi-trash"></i> @Localizer["Eliminar"]</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

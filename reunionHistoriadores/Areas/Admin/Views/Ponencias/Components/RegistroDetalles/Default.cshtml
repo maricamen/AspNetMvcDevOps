@@ -1,0 +1,66 @@
+﻿@model Ponencia
+
+<div class="card mt-3">
+    <div class="card-header">
+        @Localizer["Tipo de registro"]
+    </div>
+    <div class="card-body text-center">
+        <i class="@Model.Regitros.RegistroTipo.IconoCss"></i> @Model.Regitros.RegistroTipo.Nombre
+        <span class="badge @Model.Regitros.RegistroStatus.ClaseCss">@Model.Regitros.RegistroStatus.Nombre</span>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        @Localizer["Datos generales"]
+    </div>
+    <div class="card-body">
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Regitros.RegistroFolio.Clave)</div>
+            @Model.Regitros.RegistroFolio.Clave
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Expositores.Correo)</div>
+            @Model.Expositores.Correo
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Regitros.Fecha)</div>
+            @Model.Regitros.Fecha
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Regitros.IpAddress)</div>
+            @Model.Regitros.IpAddress
+        </div>
+        @*<div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Modalidad.Nombre)</div>
+            @(Model.Modalidad == null ? @Localizer["No capturada"] : @Model.Modalidad.Nombre)
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.NombreCompleto)</div>
+            @Model.NombreCompleto
+        </div>*@
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        @Localizer["Datos de participación"]
+    </div>
+    <div class="card-body">
+        @*<div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.LineaTematica.Nombre)</div>
+            @Model.LineaTematica.Nombre
+        </div>*@
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Titulo)</div>
+            @Model.Titulo
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.LineaTematica.Nombre)</div>
+            @Model.LineaTematica.Nombre
+        </div>
+    </div>
+    <div class="card-footer pt-1">
+        @await Component.InvokeAsync("Archivos", new { id = Model.Id })
+    </div>
+</div>

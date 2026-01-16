@@ -1,0 +1,44 @@
+﻿/*---------------------------------------------
+    Validaciones
+*/
+
+.form-control:focus, .form-select:focus {
+    box-shadow: none;
+}
+
+.form-control.input-validation-error {
+    border-color: #dc3545;
+}
+
+.form-check-input.input-validation-error {
+    border-color: #dc3545;
+}
+
+.form-check-input.input-validation-error ~ .form-check-label {
+    color: #dc3545;
+}
+
+.input-validation-error ~ .invalid-feedback, .invalid-feedback.field-validation-error {
+    display: block;
+}
+
+.form-select.input-validation-error {
+    border-color: #dc3545;
+}
+
+.form-control.valid, .form-select.valid, .form-check-input.valid, .form-check-input.valid ~ .form-check-label {
+    border-color: #198754;
+}
+.form-check-input.valid ~ .form-check-label {
+    color: #198754;
+}
+
+.validation-Message-block {
+    display: block;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+    margin: 10px 0;
+    text-align: center;
+}

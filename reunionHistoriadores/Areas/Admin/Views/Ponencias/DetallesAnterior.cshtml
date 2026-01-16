@@ -1,0 +1,23 @@
+﻿@model Ponencia
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Registros" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]" asp-route-pageNumber="@ViewData["PageNumber"]" asp-route-id="@Model.Regitros.RegistroTipoId" title="@Localizer["Inicio"]">@Localizer["Listado"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+@await Component.InvokeAsync("RegistroDetalles", new { id = Model.Id })
+
+<div class="text-center mt-3">
+    <a class="btn btn-sm btn-outline-secondary" asp-controller="Registros" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]" asp-route-pageNumber="@ViewData["PageNumber"]" asp-route-id="@Model.Regitros.RegistroTipoId" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+</div>
+
+@await Component.InvokeAsync("Seguimiento", new { id = Model.Id })

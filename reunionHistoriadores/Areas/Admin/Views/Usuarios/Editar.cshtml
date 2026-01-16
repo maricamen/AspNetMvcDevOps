@@ -1,0 +1,104 @@
+﻿@model reunionhistoriadores2025.Areas.Admin.ViewModels.Usuarios.EditarViewModel
+
+@using reunionhistoriadores2025.Areas.Admin.ViewModels.Usuarios
+@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Services.Options
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<GlobalOptions> Opciones
+
+@section Styles {
+<partial name="_ValidationStylesPartial" />
+}
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
+
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["SubTitle"] = "Editar";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Usuarios"]">@Localizer["Usuarios"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<form asp-action="Editar">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="card text-dark bg-light mt-3">
+        <div class="card-header">
+            @Model.UserName
+        </div>
+        <div class="card-body small">
+            <div class="mb-3 obligatorio">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Email" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Nombrecompleto" class="form-label"></label>
+                <input asp-for="Nombrecompleto" placeholder="Introduzca un valor para este campo" class="form-control" />
+                <span asp-validation-for="Nombrecompleto" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Adscripcion" class="form-label"></label>
+                <input asp-for="Adscripcion" placeholder="Introduzca un valor para este campo" class="form-control name" autocomplete="off" />
+                <span asp-validation-for="Adscripcion" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Rol" class="form-label"></label>
+                <select asp-for="Rol" asp-items='(SelectList)ViewData["RolesSelect"]' class="form-select">
+                    <option value="">Seleccione un valor para este campo</option>
+                </select>
+                <span asp-validation-for="Rol" class="invalid-feedback"></span>
+            </div>
+            @* <div class="mb-2">
+                <label asp-for="CardsViewEnabled" class="form-label"></label>
+                <div>
+                    @foreach (var item in (SelectList)ViewData["ControlBoleano"])
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="CardsViewEnabled" value="@item.Value" id="CardsViewEnabled@(item.Value)" />
+                            <label class="form-check-label" for="CardsViewEnabled@(item.Value)">@item.Text</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="CardsViewEnabled" class="invalid-feedback"></span>
+            </div> *@
+            <div class="mb-2 text-muted">
+                <div class="text-dark">@Html.DisplayNameFor(model => model.ActiveDirectoryEnabled)</div>
+                @(Model.ActiveDirectoryEnabled ? "Sí" : "No")
+            </div>
+        </div>
+
+        @if (Convert.ToBoolean(Opciones.Value.HabilitaJurado) && Convert.ToBoolean(Opciones.Value.HabilitaJuradoLineaTematica))
+        {
+            <div id="BloqueLineasTematicas" class="card-body border-top small">
+                <div class="mb-2">
+                    <label class="form-label">@Localizer["Lineas temáticas"]</label>
+                    @{
+                        List<AssignedJuradoLineaTematicaViewModel> lineatematicas = (List<AssignedJuradoLineaTematicaViewModel>)ViewData["LineasTematicas"];
+
+                        foreach (var lineatematica in lineatematicas)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selectedLineaTematicas" id="selectedLineaTematicas@(lineatematica.LineaTematicaId)" value="@lineatematica.LineaTematicaId" @(Html.Raw(lineatematica.Assigned ? "checked=\"checked\"" : "")) />
+                                <label class="form-check-label text-secondary" for="selectedLineaTematicas@(lineatematica.LineaTematicaId)">@lineatematica.Nombre</label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-3">
+        <button id="btnEnviar" type="submit" class="btn btn-sm btn-primary">@Localizer["Guardar"]</button>
+        <a class="btn btn-sm btn-outline-secondary" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+    </div>
+</form>

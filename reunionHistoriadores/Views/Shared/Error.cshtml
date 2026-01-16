@@ -1,0 +1,17 @@
+﻿@using reunionhistoriadores2025.ViewModels.Shared
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Espacio en mantenimiento";
+}
+
+<div class="container my-2">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-muted">@Localizer["El apartado actual se encuentra en mantenimiento."]</p>
+
+    @if (Model?.ShowRequestId ?? false)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model?.RequestId</code>
+        </p>
+    }
+</div>

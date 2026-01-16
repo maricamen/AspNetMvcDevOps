@@ -1,0 +1,47 @@
+﻿@model IEnumerable<reunionhistoriadores2025.Models.Opciones>
+
+@{
+    ViewData["Title"] = "Configuración";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+<p class="text-end small">
+    Mostrando @Model.Count() elementos
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped small">
+        <thead class="table-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Valor)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@Html.DisplayFor(modelItem => item.Nombre)</strong></td>
+                    <td>@Html.DisplayFor(modelItem => item.Valor)</td>
+                    <td>
+                        <a class="text-decoration-none" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil"></i> Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

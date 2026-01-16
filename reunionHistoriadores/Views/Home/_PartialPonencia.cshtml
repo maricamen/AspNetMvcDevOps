@@ -1,0 +1,84 @@
+﻿@using reunionhistoriadores2025.ViewModels.Home
+@model PonenciaViewModel
+
+<div class="card mt-3">
+    <div class="card-header">
+        @Localizer["Datos de participación"]
+    </div>
+    <div class="card-body">
+        <div class="mb-3 obligatorio">
+            <label asp-for="Titulo" class="form-label"></label>
+            <input asp-for="Titulo" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="Titulo" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-6 obligatorio">
+                    <label asp-for="LineaTematicaId" class="form-label"></label>
+                    @Html.DropDownListFor(m => m.LineaTematicaId, ViewData["Temas"] as SelectList, "Seleccione un tema", new { @class = "form-control" })
+                    <span asp-validation-for="LineaTematicaId" class="invalid-feedback"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="LineaTematicaOtro" class="form-label"></label>
+                    <input asp-for="LineaTematicaOtro" placeholder="Introduzca un valor para este campo" class="form-control temaOtro" />
+                    <span class="otroRequerido">Campo requerido</span>
+                </div>
+            </div>
+            
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="Nombre" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="GradoAcademico" class="form-label"></label>
+            <input asp-for="GradoAcademico" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="GradoAcademico" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-6 obligatorio">
+                    <label asp-for="GeneroId" class="form-label"></label>
+                    @Html.DropDownListFor(m => m.GeneroId, ViewData["Generos"] as SelectList, "Seleccione un género", new { @class = "form-control" })
+                    <span asp-validation-for="GeneroId" class="invalid-feedback"></span>
+                </div>
+                @* <div class="col-6">
+                    <label asp-for="Autodescripcion" class="form-label"></label>
+                    <input asp-for="Autodescripcion" placeholder="Introduzca un valor para este campo" class="form-control" />
+                </div> *@
+            </div>  
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="InstituciónAdscripción" class="form-label"></label>
+            <input asp-for="InstituciónAdscripción" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="InstituciónAdscripción" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="Correo" class="form-label"></label>
+            <input asp-for="Correo" placeholder="Introduzca un valor para este campo" class="form-control" />
+            <span asp-validation-for="Correo" class="invalid-feedback"></span>
+        </div>
+        <div class="form-group">
+            <div class="mb-3 obligatorio">
+                <label asp-for="PaisId" class="form-label"></label>
+                @Html.DropDownListFor(m => m.PaisId, ViewData["Paises"] as SelectList, "Seleccione un país", new { @class = "form-control" })
+                <span asp-validation-for="PaisId" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="mb-3 obligatorio">
+            <label asp-for="Resumen" class="form-label"></label>
+            <input asp-for="Resumen" class="form-control" />
+            <span asp-validation-for="Resumen" class="invalid-feedback"></span>
+            <small>
+                Adjuntar archivo Formato Propuesta de Ponencias<br />
+                El archivo deberá nombrarse con el tema seguido del apellido y nombre de la persona ponente.<br />
+                Formato:[Tema]_[Apellido].[extensión]<br />
+                Ejemplos:<br />
+                •	Migracion y Movilidad Humana Garcia Rodolfo.docx<br />
+                •	Politica y Gobernanza Perez Alicia.pdf<br />
+
+            </small>
+        </div>
+    </div>
+</div>

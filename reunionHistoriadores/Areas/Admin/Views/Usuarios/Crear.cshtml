@@ -1,0 +1,133 @@
+﻿@model reunionhistoriadores2025.Areas.Admin.ViewModels.Usuarios.CrearViewModel
+
+@using reunionhistoriadores2025.Areas.Admin.ViewModels.Usuarios
+@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Services.Options
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<GlobalOptions> Opciones
+
+@section Styles {
+    <partial name="_ValidationStylesPartial" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@sweetalert2/theme-bootstrap-4@@5.0.8/bootstrap-4.min.css" />
+    <link rel="stylesheet" href="~/lib/easy-autocomplete/easy-autocomplete.css" asp-append-version="true" />
+}
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="~/lib/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script src="~/admin/js/usuarios/crear.js" asp-append-version="true"></script>
+}
+
+    @{
+    ViewData["Title"] = "Usuarios";
+    ViewData["SubTitle"] = "Crear";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Usuarios"]">@Localizer["Usuarios"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<form asp-action="Crear">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input id="UrlBuscaUsuario" type="hidden" value="@Url.Action("BuscaUsuario", "Usuarios")" />
+
+    <div class="card text-dark bg-light mt-3">
+        <div class="card-header">
+            Datos de usuario
+        </div>
+        <div class="card-body small">
+            <div class="mb-3 obligatorio">
+                <label asp-for="UserName" class="form-label"></label>
+                <input asp-for="UserName" id="lista" placeholder="Introduzca un valor para este campo" class="form-control username" autocomplete="off" />
+                <span asp-validation-for="UserName" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" placeholder="Introduzca un valor para este campo" class="form-control mail" autocomplete="off" />
+                <span asp-validation-for="Email" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Nombrecompleto" class="form-label"></label>
+                <input asp-for="Nombrecompleto" placeholder="Introduzca un valor para este campo" class="form-control name" autocomplete="off" />
+                <span asp-validation-for="Nombrecompleto" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Adscripcion" class="form-label"></label>
+                <input asp-for="Adscripcion" placeholder="Introduzca un valor para este campo" class="form-control name" autocomplete="off" />
+                <span asp-validation-for="Adscripcion" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Rol" class="form-label"></label>
+                <select asp-for="Rol" asp-items='(SelectList)ViewData["RolesSelect"]' class="form-select">
+                    <option value="">Seleccione un valor para este campo</option>
+                </select>
+                <span asp-validation-for="Rol" class="invalid-feedback"></span>
+            </div>
+            @* <div class="mb-2">
+                <label asp-for="CardsViewEnabled" class="form-label"></label>
+                <div>
+                    @foreach (var item in (SelectList)ViewData["ControlBoleano"])
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="CardsViewEnabled" value="@item.Value" id="CardsViewEnabled@(item.Value)" />
+                            <label class="form-check-label" for="CardsViewEnabled@(item.Value)">@item.Text</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="CardsViewEnabled" class="invalid-feedback"></span>
+            </div> *@
+            <div class="mb-2">
+                <label asp-for="ActiveDirectoryEnabled" class="form-label"></label>
+                <div>
+                    @foreach (var item in (SelectList)ViewData["ControlBoleano"])
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="ActiveDirectoryEnabled" value="@item.Value" id="ActiveDirectoryEnabled@(item.Value)" />
+                            <label class="form-check-label" for="ActiveDirectoryEnabled@(item.Value)">@item.Text</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="ActiveDirectoryEnabled" class="invalid-feedback"></span>
+            </div>
+            <div class="mb-3 obligatorio">
+                <label asp-for="Password" class="form-label"></label>
+                <span class="input-group">
+                    <input asp-for="Password" rel="gp" data-size="10" data-character-set="a-z,A-Z,0-9,#" placeholder="Introduzca un valor para este campo" class="form-control password" />
+                    <button class="btn btn-outline-secondary getNewPass" type="button"><i class="bi bi-arrow-clockwise"></i></button>
+                </span>
+                <div class="small text-secondary">@Localizer["La contraseña debe tener al menos uno de los siguientes símbolos ('!@@#$%^&*)('). La contraseña debe tener al menos una letra minúscula ('a'-'z'). La contraseña debe tener al menos una mayúscula ('A'-'Z'). La contraseña debe tener al menos un dígito ('0'-'9')."]</div>
+                <span asp-validation-for="Password" class="invalid-feedback"></span>
+            </div>
+        </div>
+
+        @if (Convert.ToBoolean(Opciones.Value.HabilitaJurado) && Convert.ToBoolean(Opciones.Value.HabilitaJuradoLineaTematica))
+        {
+            <div id="BloqueLineasTematicas" class="card-body border-top small">
+                <div class="mb-2">
+                    <label class="form-label">@Localizer["Lineas temáticas"]</label>
+                    @{
+                        List<AssignedJuradoLineaTematicaViewModel> lineatematicas = (List<AssignedJuradoLineaTematicaViewModel>)ViewData["LineasTematicas"];
+
+                        foreach (var lineatematica in lineatematicas)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selectedLineaTematicas" id="selectedLineaTematicas@(lineatematica.LineaTematicaId)" value="@lineatematica.LineaTematicaId" @(Html.Raw(lineatematica.Assigned ? "checked=\"checked\"" : "")) />
+                                <label class="form-check-label text-secondary" for="selectedLineaTematicas@(lineatematica.LineaTematicaId)">@lineatematica.Nombre</label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-3">
+        <button id="btnEnviar" type="submit" class="btn btn-sm btn-primary" data-swaltitle="@ViewData["Title"] - @ViewData["SubTitle"]" data-swaltext="@Localizer["¿Confirma que desea guardar la información?"]">@Localizer["Guardar"]</button>
+        <a class="btn btn-sm btn-outline-secondary" asp-controller="Usuarios" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+    </div>
+</form>

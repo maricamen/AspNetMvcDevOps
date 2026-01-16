@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<CustomIdentityUser>
+@inject UserManager<CustomIdentityUser> _userManager
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+<div class="row small mb-3">
+    <div class="col">
+        <a class="text-decoration-none" asp-action="Crear" title="@Localizer["Crear nuevo"]">@Localizer["Crear nuevo"]</a>
+    </div>
+    <div class="col text-end">
+        Mostrando @Model.Count() elementos
+    </div>
+</div>
+
+@if (Model.Count() > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-bordered small">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        @Localizer["Correo"]
+                    </th>
+                    <th>
+                        @Localizer["Correo alterno"]
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Nombrecompleto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ActiveDirectoryEnabled)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CardsViewEnabled)
+                    </th>
+                    <th>
+                        Roles
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.UserName)</strong>
+                        </td>
+                        <td>
+                            <strong>@Html.DisplayFor(modelItem => item.Email)</strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombrecompleto)
+                        </td>
+                        <td>
+                            @(item.ActiveDirectoryEnabled ? "Sí" : "No")
+                        </td>
+                        <td>
+                            @(item.CardsViewEnabled ? "Sí" : "No")
+                        </td>
+                        <td>
+                            @foreach (var role in await _userManager.GetRolesAsync(item))
+                            {
+                                <div>@role</div>
+                            }
+                        </td>
+                        <td>
+                            <a class="text-decoration-none" asp-action="Detalles" asp-route-id="@item.Id"><i class="bi bi-journal-text"></i> @Localizer["Detalles"]</a>
+                            <a class="text-decoration-none" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil"></i> @Localizer["Editar"]</a>
+                            @if (!item.ActiveDirectoryEnabled)
+                            {
+                                <a class="text-decoration-none" asp-action="CambiarPassword" asp-route-id="@item.Id"><i class="bi bi-pencil"></i> @Localizer["Cambiar contraseña"]</a>
+                            }
+                            <a class="text-decoration-none" asp-action="Eliminar" asp-route-id="@item.Id"><i class="bi bi-trash"></i> @Localizer["Eliminar"]</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="mt-5">
+        <div class="alert alert-primary" role="alert">
+            <i class="bi bi-info-circle-fill"></i> @Localizer["No se han encontrado elementos"]
+        </div>
+    </div>
+}

@@ -1,0 +1,31 @@
+﻿@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Services.Options
+@model X.PagedList.IPagedList<Ponencia>
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<GlobalOptions> Opciones
+
+<tr>
+    <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["FolioSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]">@Localizer["Folio"] @Html.Raw(ViewData["FolioSortIcon"])</a>
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.FirstOrDefault().Expositores.Correo)
+    </th>
+    <th>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentStatus="@ViewData["CurrentStatus"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Regitros.Fecha) @Html.Raw(ViewData["DateSortIcon"])</a>
+    </th>
+
+    @* Aqui puedes cambiar*@
+    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().LineaTematica.Nombre)</th>
+    @*<th>Autores</th>*@
+    @* Aqui puedes cambiar*@
+
+    @* @if (Convert.ToBoolean(Opciones.Value.HabilitaJurado) && User.IsInRole(AdminRolePolicies.JuradoRole))
+    {
+        <th>@Localizer["Jurado"]</th>
+    } *@
+    <th>Archivos</th>
+    <th>
+        @Localizer["Estado"]
+    </th>
+    <th style="width:1px"></th>
+</tr>

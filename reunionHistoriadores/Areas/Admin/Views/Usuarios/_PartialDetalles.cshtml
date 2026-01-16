@@ -1,0 +1,63 @@
+﻿@model CustomIdentityUser
+
+@using reunionhistoriadores2025.Areas.Admin.ViewModels.Usuarios
+@using reunionhistoriadores2025.AuthorizationPolicies
+@using reunionhistoriadores2025.Services.Options
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<CustomIdentityUser> _userManager
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<GlobalOptions> Opciones
+
+<div class="card text-dark bg-light mt-3">
+    <div class="card-header">
+        @Model.UserName
+    </div>
+    <div class="card-body">
+        <div class="form-text mb-2">
+            <div class="text-dark">@Localizer["Correo alterno"]</div>
+            @Model.Email
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.Nombrecompleto)</div>
+            @Model.Nombrecompleto
+        </div>
+        <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.ActiveDirectoryEnabled)</div>
+            @(Model.ActiveDirectoryEnabled ? "Sí" : "No")
+        </div>
+        @* <div class="form-text mb-2">
+            <div class="text-dark">@Html.DisplayNameFor(model => model.CardsViewEnabled)</div>
+            @(Model.CardsViewEnabled ? "Sí" : "No")
+        </div> *@
+        <div class="form-text mb-2">
+            <div class="text-dark">Roles</div>
+            @foreach (var role in await _userManager.GetRolesAsync(Model))
+            {
+                @role
+            }
+        </div>
+    </div>
+
+    @* @if (Convert.ToBoolean(Opciones.Value.HabilitaJurado) && Convert.ToBoolean(Opciones.Value.HabilitaJuradoLineaTematica))
+    {
+        var roles = await _userManager.GetRolesAsync(Model);
+        if (roles.Contains(AdminRolePolicies.CoordinadorMesaRole) || roles.Contains(AdminRolePolicies.JuradoRole))
+        {
+            <div class="card-body border-top">
+                <div class="form-text mb-2">
+                    <div class="form-label text-dark">@Localizer["Lineas temáticas"]</div>
+                    @{
+                        List<AssignedJuradoLineaTematicaViewModel> lineatematicas = (List<AssignedJuradoLineaTematicaViewModel>)ViewData["LineasTematicas"];
+
+                        foreach (var lineatematica in lineatematicas)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selectedLineaTematicas" id="selectedLineaTematicas@(lineatematica.LineaTematicaId)" disabled value="@lineatematica.LineaTematicaId" @(Html.Raw(lineatematica.Assigned ? "checked=\"checked\"" : "")) />
+                                <label class="form-check-label" for="selectedLineaTematicas@(lineatematica.LineaTematicaId)">@lineatematica.Nombre</label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    } *@
+</div>

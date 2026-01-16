@@ -1,0 +1,104 @@
+﻿@model Simposio
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h2>Detalles del Simposio</h2>
+<div class="form-group row">
+    <label class="col"><b>Folio:</b> @ViewData["Folio"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Nombre:</b> @ViewData["SimposioNombre"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Tema:</b> @ViewData["Tema"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Coordinador:</b> @ViewData["NombreCoordinador"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Correo:</b> @ViewData["CorreoCoordinador"]</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Institución de adscripción:</b> @ViewData["InstitucionCoordinador"]</label>
+</div>
+<div class="form-group row">
+    @if (ViewBag.SimposioArchivo != null)
+    {
+        <p>
+            <strong>Archivo del simposio:</strong>
+            <a asp-action="DescargarArchivo" asp-route-id="@ViewBag.SimposioId">
+                @ViewBag.SimposioArchivo
+            </a>
+        </p>
+    }
+    else
+    {
+        <p><strong>Archivo de la mesa:</strong> (Sin archivo)</p>
+    }
+</div>
+@if (Model.Mesas != null && Model.Mesas.Any())
+{
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-success">
+            <tr>
+                <th style="width: 20%">Nombre de la Mesa</th>
+                <th style="width: 20%">Coordinador</th>
+                <th style="width: 60%">Ponencias</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mesa in Model.Mesas)
+            {
+                <tr>
+                    <td>@mesa.Nombre</td>
+                    <td>
+                        @mesa.CoordinadorNombre<br />
+                        <small class="text-muted">@mesa.CoordinadorCorreo</small>
+                    </td>
+                    <td>
+                        @if (mesa.Ponencias != null && mesa.Ponencias.Any())
+                        {
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Expositor</th>
+                                        <th>Correo</th>
+                                        <th>Género</th>
+                                        <th>País</th>
+                                        <th>Institución</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ponencia in mesa.Ponencias)
+                                    {
+                                        <tr>
+                                            <td>@ponencia.Titulo</td>
+                                            <td>@ponencia.Expositores?.Nombre</td>
+                                            <td>@ponencia.Expositores?.Correo</td>
+                                            <td>@ponencia.Expositores?.Genero.Nombre</td>
+                                            <td>@ponencia.Expositores?.Paises.Nombre</td>
+                                            <td>@ponencia.Expositores?.Institucion</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <em>No hay ponencias registradas.</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p><em>No hay mesas relacionadas.</em></p>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver al listado</a>

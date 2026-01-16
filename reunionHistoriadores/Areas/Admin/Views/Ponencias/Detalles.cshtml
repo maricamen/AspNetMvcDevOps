@@ -1,0 +1,58 @@
+﻿@model reunionhistoriadores2025.Models.Ponencia
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles de ponencia</h2>
+<div class="form-group row">
+    <label class="col"><b>Folio:</b> @Model.Regitros.RegistroFolio.Clave</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Título:</b> @Model.Titulo</label>
+</div>
+<div class="form-group row">
+    <label class="col"><b>Tema:</b> @ViewData["Tema"]</label>
+</div>
+<div class="form-group row">
+    <label class="col">
+        <b>Archivo:</b> @if (Model.Archivos != null && Model.Archivos.Any())
+        {
+           @foreach (var archivo in Model.Archivos)
+            {
+                <a asp-action="DescargarArchivo" asp-route-id="@archivo.Id">
+                    @archivo.Nombre
+                </a>
+            }
+        }
+        else
+        {
+            <span class="text-muted">(Sin archivo)</span>
+        }
+    </label>
+</div>
+<br />
+<table class="table table-bordered table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>Nombre del expositor</th>
+            <th>Correo</th>
+            <th>Grado académico</th>
+            <th>Institución de adscripción</th>
+            <th>Género</th>
+            <th>País</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>@Model.Expositores.Nombre</td>
+        <td>@Model.Expositores.Correo</td>
+        <td>@Model.Expositores.GradoAcademico</td>
+        <td>@Model.Expositores.Institucion</td>
+        <td>@Model.Expositores.Genero.Nombre </td>
+        <td> @Model.Expositores.Paises.Nombre</td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver al listado</a>

@@ -1,0 +1,18 @@
+﻿@using reunionhistoriadores2025.Areas.Admin.ViewModels.Registros
+@model List<ArchivoViewModel>
+
+@foreach (var item in Model)
+{
+    @if ((bool)@ViewData["CardsViewEnabled"])
+    {
+        <div class="text-truncate">
+            <a class="link-secondary text-decoration-none small" title="@item.Nombre" asp-action="Descargar" asp-route-id="@item.Id"><i class="@item.ArchivoTipo.IconoCss text-danger"></i> @item.Nombre</a>
+        </div>
+    }
+    else
+    {
+        <div class="text-truncate" style="max-width: 100px">
+            <a class="link-secondary text-decoration-none small" title="@item.Nombre" asp-action="Descargar" asp-route-id="@item.Id"><i class="@item.ArchivoTipo.IconoCss text-danger"></i> @item.Nombre</a>
+        </div>
+    }
+}

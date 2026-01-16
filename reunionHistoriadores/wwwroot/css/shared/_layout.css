@@ -1,0 +1,111 @@
+﻿/*---------------------------------------------
+    Pleca
+*/
+
+input:focus, select:focus, button:focus {
+    box-shadow: none!important;
+}
+
+/* Logo Verde */
+.bg-azul, .bg-azul:hover {
+    background-color: #2e4994;
+}
+
+.bg-verde, .bg-verde:hover {
+    background-color: #03ae4e;
+}
+
+.bg-morado {
+    background-color: #7F3E98;
+}
+
+.cargando {
+    display: none;
+}
+
+.obligatorio label:first-child::after {
+    content: "*";
+    color: #dc3545 !important;
+    margin-left: 4px;
+}
+
+.temas {
+    visibility: hidden;
+    height: 0px !important;
+}
+
+/*Ponencias-Mesas-Simposios*/
+.otroRequerido {
+    font-size: .875em;
+    color: #dc3545;
+}
+
+.otroRequeridoInput {
+    border-color: #dc3545 !important;
+}
+
+.oculto {
+    display: none;
+}
+
+.filtro-superior {
+    display: flex;
+    justify-content: flex-end;
+}
+    .filtro-superior a {
+        margin-right: 10px;
+    }
+.elem-filtro {
+    display: inline-block;
+}
+.select-filtro {
+    width: 69%;
+}
+
+
+.mesaOpcionalboton {
+    display: inline-block; /* Permite aplicar padding y margin */
+    padding: 6px 10px; /* Espaciado interno */
+    background-color: #28a745; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-decoration: none; /* Elimina el subrayado */
+    border-radius: 5px; /* Esquinas redondeadas */
+    border: none; /* Elimina el borde predeterminado */
+}
+    .mesaOpcionalboton:hover {
+        color: white;
+        background-color: #218838;
+    }
+
+.center-container {
+    display: flex;
+    justify-content: center;
+}
+.size-ic {
+    font-size: 50px;
+}
+/*Ponencias-Mesas-Simposios*/
+
+    /* Easy Autocomplete */
+    .fa-easy {
+    position: absolute;
+    top: 9px;
+    right: 8px;
+}
+
+@media (min-width: 768px) {
+    .logo-uv {
+        right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    
+}
+
+@media (min-width: 768px) {
+    .h-md-100 {
+        height: 100vh;
+        min-height: 700px;
+    }
+}

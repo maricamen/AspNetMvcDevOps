@@ -1,0 +1,52 @@
+﻿@model reunionhistoriadores2025.Models.Opciones
+
+@{
+    ViewData["Title"] = "Configuración";
+    ViewData["SubTitle"] = "Editar";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index" title="@Localizer["Regresar al inicio"]">@Localizer["Inicio"]</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Configuracion" asp-action="Index" title="@Localizer["Configuración"]">@Localizer["Configuración"]</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h2 class="text-center mb-4">@ViewData["Title"] <small class="text-muted">@ViewData["SubTitle"]</small></h2>
+
+<form asp-action="Editar">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="card text-dark bg-light mt-3">
+        <div class="card-header">
+            @Model.Nombre
+        </div>
+        <div class="card-body">
+            <div class="form-text mb-2 obligatorio">
+                <label asp-for="Valor" class="form-label"></label>
+                @if ((bool)ViewData["UsaSelect"])
+                {
+                    <select asp-for="Valor" asp-items="(SelectList)ViewData[Model.Nombre]" class="form-select"></select>
+                }
+                else
+                {
+                    <input asp-for="Valor" placeholder="Introduzca un valor para este campo" class="form-control" />
+                }
+                <span asp-validation-for="Valor" class="invalid-feedback"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <button id="btnEnviar" type="submit" class="btn btn-sm btn-primary">@Localizer["Guardar"]</button>
+        <a class="btn btn-sm btn-outline-secondary" asp-controller="Configuracion" asp-action="Index" title="@Localizer["Cancelar"]">@Localizer["Cancelar"]</a>
+    </div>
+</form>
+
+@section Styles {
+<partial name="_ValidationStylesPartial" />
+}
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

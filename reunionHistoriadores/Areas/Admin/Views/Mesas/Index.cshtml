@@ -1,0 +1,63 @@
+﻿@model X.PagedList.IPagedList<reunionhistoriadores2025.Models.Mesa>
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList.Web.Common; 
+@{
+    ViewBag.Title = "Listado de Mesas";
+}
+
+<h2>Listado de Mesas</h2>
+<div class="filtro-superior">
+    <a asp-action="DescargarZip" class="btn btn-outline-primary">
+        Descargar todos los archivos (.zip)
+    </a>
+    <a asp-action="ExportarExcel" class="btn btn-outline-primary">
+        Descargar listado en Excel
+    </a>
+</div>
+<br />
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-warning">@TempData["Mensaje"]</div>
+}
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>#</th>
+            <th>Folio</th>
+            <th>Nombre de la mesa</th>
+            <th>Tema</th>
+            <th>Coordinador</th>
+            <th>Correo</th>
+            <th>Fecha</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = (Model.PageNumber - 1) * Model.PageSize;
+        }
+        @foreach (var mesa in Model)
+        {
+            index++;
+            <tr>
+                <td>@index</td>
+                <td>@mesa.Regitros.RegistroFolio.Clave</td>
+                <td>@mesa.Nombre</td>
+                <td>@(mesa.LineaTematicaId == null ? "-"  : mesa.LineaTematica.Nombre)</td>
+                <td>@mesa.CoordinadorNombre</td>
+                <td>@mesa.CoordinadorCorreo</td>
+                <td>@mesa.Regitros.Fecha.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="Detalles" asp-route-id="@mesa.Id" class="btn btn-outline-success btn-sm">
+                        Detalles
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="text-end">
+    <small>Total de mesas: @ViewBag.Total</small>
+</div>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { UlElementClasses = new string[] { "pagination", "justify-content-center", "pagination-sm" }, LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
