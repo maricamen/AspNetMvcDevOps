@@ -1,15 +1,12 @@
-name: CI ASP.NET MVC
+name: CI/CD ASP.NET MVC
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: windows-latest
 
     steps:
@@ -24,5 +21,15 @@ jobs:
     - name: Restaurar dependencias
       run: dotnet restore
 
-    - name: Compilar solución
+    - name: Compilar
       run: dotnet build --configuration Release --no-restore
+
+    - name: Publicar
+      run: dotnet publish --configuration Release --output ./publish
+
+    - name: Deploy a Azure App Service
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: mvc-devops-maricarmen
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ./publish
